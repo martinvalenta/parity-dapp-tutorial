@@ -1,6 +1,7 @@
 import {Bond, TimeBond} from 'oo7';
 import {TextBond, Rspan, Hash, HashBond, Rimg, RRaisedButton} from 'oo7-react';
 import {formatBlockNumber, formatBalance, isNullData} from 'oo7-parity';
+import {TransactionProgressBadge} from 'parity-reactive-ui';
 import React from 'react';
 import styles from "../style.css";
 
@@ -14,7 +15,7 @@ export class App extends React.Component {
 	constructor() {
 		super();
 		this.counter = parity.bonds.makeContract('0x83d85eEB38A2dC37EAc0239c19b343a7653d8F79', CounterABI);
-
+		this.state = { tx: null };
 	}
 	render () {
 		return (<div>
@@ -24,11 +25,18 @@ export class App extends React.Component {
 						.votes(i)
 						.map(v => `${1 + v * 10}px black solid`)
 				}}>
-					<span style={{float: 'left', minWidth: '3em'}}>
+					<a
+						style={{float: 'left', minWidth: '3em'}}
+						href='#'
+						onClick={() => this.setState({tx: this.counter.vote(i)})}
+					>
 						{n}
-					</span>
+					</a>
 				</Rspan>
 			</div>))}
+			<div style={{marginTop: '1em'}}>
+				<TransactionProgressBadge value={this.state.tx}/>
+			</div>
 		</div>);
 	}
 }
