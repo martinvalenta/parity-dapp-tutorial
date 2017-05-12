@@ -56,8 +56,8 @@ class Counter extends React.Component {
 		return (<div>
 			{Options.map((n, i) => (<div key={i}><VoteOption
 				label={n}
-				votes={this.counter.votes(i)}
-				vote={() => this.setState({tx: this.counter.vote(i)})}
+				votes={this.props.contract.votes(i)}
+				vote={() => this.setState({tx: this.props.contract.vote(i)})}
 				enabled={votingEnabled}
 				already={this.prevVotes.map(a => a.filter(x => x.option == i).map(x => x.who))}
 			/></div>))}
